@@ -123,3 +123,15 @@ const winningConditions = [
   [12, 19, 26, 33],
   [13, 20, 27, 34],
 ];
+
+// Déclaration de la fonction playerTurn qui indique quel joueur doit jouer
+const playerTurn = () => `C'est au tour du joueur ${currentPlayer} !`;
+
+// On affiche quel joueur commence
+statusPlayer.innerHTML = playerTurn(); // Appel de la fonction playerTurn()
+
+// Déclaration de la fonction win qui affiche le vainqueur
+const win = () => `Le joueur ${currentPlayer} a gagné !`;
+
+// Déclaration de la fonction tie qui indique que la partie n'a pas de vainqueur
+const tie = () => "Egalité !";
