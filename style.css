@@ -1,0 +1,40 @@
+/**** Importation de la police "Roboto" ****/
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+/**** Variables css ****/
+
+:root {
+    --red: #ff5470;
+    --yellow: #fde24f;
+    --white: #fffffe;
+    --blue: #001534;
+    --light-blue: #b7c9e4;
+    --light-grey: #f2f4f6;
+}
+
+/**** Reset ****/
+
+*,
+::before,
+::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/**** body ****/
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/**** main ****/
+
+.main__content {
+    flex-grow: 1;
+}
