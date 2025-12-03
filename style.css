@@ -160,3 +160,29 @@ h1 {
         height: 55px;
     }
 }
+
+/**** Responsive design version mobile ****/
+
+@media screen and (max-width: 520px) {
+    .game__area {
+        width: 400px;
+    }
+
+    .game__area div {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/**** Responsive design version mobile ****/
+
+@media screen and (max-width: 420px) {
+    .game__area {
+        width: 320px;
+    }
+
+    .game__area div {
+        width: 30px;
+        height: 30px;
+    }
+}
