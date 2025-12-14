@@ -1,4 +1,4 @@
-/** JEU : PUISSANCE 4
+/** GAME : PUISSANCE 4
  * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
  * column until a player gets four-in-a-row (horiz, vert, or diag) or until
  * board fills (tie)
@@ -8,6 +8,7 @@
 const statusGame = document.querySelector(".status__title");
 const statusSection = document.querySelector(".status");
 const replayBtn = document.querySelector(".replay");
+const copyrightYear = document.querySelector(".footer__copyright__year");
 
 // Constants
 const WIDTH = 7;
@@ -210,3 +211,17 @@ const checkForWin = () => {
 // Functions call
 makeBoard();
 makeHtmlBoard();
+
+// Declaration of the getCurrentYear function which will allow us the dynamic display of the year
+const getCurrentYear = () => {
+  const date = new Date();
+  //console.log(date);
+
+  const year = date.getFullYear();
+  //console.log(year);
+
+  copyrightYear.textContent = `${year}`;
+};
+
+// getCurrentYear function call
+getCurrentYear();
