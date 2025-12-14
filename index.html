@@ -11,88 +11,47 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Début du header -->
+    <!-- Beginning of header -->
     <header>
       <h1>Jeu : Puissance 4</h1>
     </header>
-    <!-- Fin du header -->
+    <!-- End of header -->
 
-    <!-- Début du main -->
+    <!-- Beginning of main -->
     <main class="main__content">
-      <!--Début de la section game -->
+      <!-- Beginning of section game -->
       <section class="game">
-        <h2 class="game__title">Règles du jeu</h2>
+        <h2 class="game__title">Règles du jeu :</h2>
         <p class="game__rules">
           Le but du jeu est d'aligner une suite de 4 pions de même couleur sur
           une grille comptant 6 rangées et 7 colonnes. Chaque joueur dispose de
           21 pions pour y parvenir. Le premier à aligner 4 pions a gagné !!
         </p>
-        <!-- Début de la div game__area -->
+        <!-- Beginning of div game__area -->
         <div class="game__area" id="game__area">
-          <div data-index="0" class="case"></div>
-          <div data-index="1" class="case"></div>
-          <div data-index="2" class="case"></div>
-          <div data-index="3" class="case"></div>
-          <div data-index="4" class="case"></div>
-          <div data-index="5" class="case"></div>
-          <div data-index="6" class="case"></div>
-          <div data-index="7" class="case"></div>
-          <div data-index="8" class="case"></div>
-          <div data-index="9" class="case"></div>
-          <div data-index="10" class="case"></div>
-          <div data-index="11" class="case"></div>
-          <div data-index="12" class="case"></div>
-          <div data-index="13" class="case"></div>
-          <div data-index="14" class="case"></div>
-          <div data-index="15" class="case"></div>
-          <div data-index="16" class="case"></div>
-          <div data-index="17" class="case"></div>
-          <div data-index="18" class="case"></div>
-          <div data-index="19" class="case"></div>
-          <div data-index="20" class="case"></div>
-          <div data-index="21" class="case"></div>
-          <div data-index="22" class="case"></div>
-          <div data-index="23" class="case"></div>
-          <div data-index="24" class="case"></div>
-          <div data-index="25" class="case"></div>
-          <div data-index="26" class="case"></div>
-          <div data-index="27" class="case"></div>
-          <div data-index="28" class="case"></div>
-          <div data-index="29" class="case"></div>
-          <div data-index="30" class="case"></div>
-          <div data-index="31" class="case"></div>
-          <div data-index="32" class="case"></div>
-          <div data-index="33" class="case"></div>
-          <div data-index="34" class="case"></div>
-          <div data-index="35" class="case"></div>
-          <div data-index="36" class="case"></div>
-          <div data-index="37" class="case"></div>
-          <div data-index="38" class="case"></div>
-          <div data-index="39" class="case"></div>
-          <div data-index="40" class="case"></div>
-          <div data-index="41" class="case"></div>
+          <table class="board" id="board"></table>
         </div>
-        <!-- Fin de la div game__area -->
+        <!-- End of div game__area -->
       </section>
-      <!-- Fin de la section game -->
+      <!-- End of section game -->
 
-      <!-- Début de la section status-->
+      <!-- Beginning of section status-->
       <section class="status" id="status">
         <h2 class="status__title"></h2>
         <button id="restart">Rejouer</button>
       </section>
-      <!-- Fin de la section status -->
+      <!-- End of  section status -->
     </main>
-    <!-- Fin du main -->
-    <!-- Début du  footer -->
+    <!-- End of main -->
+    <!-- Beginning of footer -->
     <footer>
       <p class="footer__copyright">
         &copy; <span class="footer__copyright__year"></span> Jeu : puissance 4
       </p>
     </footer>
-    <!-- Fin du  footer -->
+    <!-- End of footer -->
 
-    <!-- Importation du fichier JavaScript -->
+    <!-- Import of JavaScript file -->
     <script src="script.js"></script>
   </body>
 </html>
