@@ -1,137 +1,212 @@
-// Récupération des éléments HTML5
-const statusPlayer = document.querySelector(".status__title");
-const cases = document.querySelectorAll(".case");
-const restartBtn = document.querySelector("#restart");
+/** JEU : PUISSANCE 4
+ * Player 1 and 2 alternate turns. On each turn, a piece is dropped down a
+ * column until a player gets four-in-a-row (horiz, vert, or diag) or until
+ * board fills (tie)
+ */
 
-// Création des variables
-let activeGame = true;
-let currentPlayer = 1;
-let stateGame = [
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-];
+// HTML5 elements retrieval
+const statusGame = document.querySelector(".status__title");
+const statusSection = document.querySelector(".status");
+const replayBtn = document.querySelector(".replay");
 
-// Définition des condition de vicoire d'un joueur
-const winningConditions = [
-  [0, 1, 2, 3],
-  [41, 40, 39, 38],
-  [7, 8, 9, 10],
-  [34, 33, 32, 31],
-  [14, 15, 16, 17],
-  [27, 26, 25, 24],
-  [21, 22, 23, 24],
-  [20, 19, 18, 17],
-  [28, 29, 30, 31],
-  [13, 12, 11, 10],
-  [35, 36, 37, 38],
-  [6, 5, 4, 3],
-  [0, 7, 14, 21],
-  [41, 34, 27, 20],
-  [1, 8, 15, 22],
-  [40, 33, 26, 19],
-  [2, 9, 16, 23],
-  [39, 32, 25, 18],
-  [3, 10, 17, 24],
-  [38, 31, 24, 17],
-  [4, 11, 18, 25],
-  [37, 30, 23, 16],
-  [5, 12, 19, 26],
-  [36, 29, 22, 15],
-  [6, 13, 20, 27],
-  [35, 28, 21, 14],
-  [0, 8, 16, 24],
-  [41, 33, 25, 17],
-  [7, 15, 23, 31],
-  [34, 26, 18, 10],
-  [14, 22, 30, 38],
-  [27, 19, 11, 3],
-  [35, 29, 23, 17],
-  [6, 12, 18, 24],
-  [28, 22, 16, 10],
-  [13, 19, 25, 31],
-  [21, 15, 9, 3],
-  [20, 26, 32, 38],
-  [36, 30, 24, 18],
-  [5, 11, 17, 23],
-  [37, 31, 25, 19],
-  [4, 10, 16, 22],
-  [2, 10, 18, 26],
-  [39, 31, 23, 15],
-  [1, 9, 17, 25],
-  [40, 32, 24, 16],
-  [9, 17, 25, 33],
-  [8, 16, 24, 32],
-  [11, 17, 23, 29],
-  [12, 18, 24, 30],
-  [1, 2, 3, 4],
-  [5, 4, 3, 2],
-  [8, 9, 10, 11],
-  [12, 11, 10, 9],
-  [15, 16, 17, 18],
-  [19, 18, 17, 16],
-  [22, 23, 24, 25],
-  [26, 25, 24, 23],
-  [29, 30, 31, 32],
-  [33, 32, 31, 30],
-  [36, 37, 38, 39],
-  [40, 39, 38, 37],
-  [7, 14, 21, 28],
-  [8, 15, 22, 29],
-  [9, 16, 23, 30],
-  [10, 17, 24, 31],
-  [11, 18, 25, 32],
-  [12, 19, 26, 33],
-  [13, 20, 27, 34],
-];
+// Constants
+const WIDTH = 7;
+const HEIGHT = 6;
 
-// Déclaration de la fonction playerTurn qui indique quel joueur doit jouer
-const playerTurn = () => `C'est au tour du joueur ${currentPlayer} !`;
+// Variables
+let currentPlayer = 1; // active player: 1 or 2
+let board = []; // array of rows, each row is array of cells  (board[y][x])
 
-// On affiche quel joueur commence
-statusPlayer.innerHTML = playerTurn(); // Appel de la fonction playerTurn()
+/** makeBoard function: create in-JS board structure:
+ *    board = array of rows, each row is array of cells  (board[y][x])
+ */
+const makeBoard = () => {
+  // set "board" to empty HEIGHT x WIDTH matrix array
+  for (let y = 0; y < HEIGHT; y++) {
+    board.push(new Array(WIDTH).fill(null));
+  }
+};
 
-// Déclaration de la fonction win qui affiche le vainqueur
-const win = () => `Le joueur ${currentPlayer} a gagné !`;
+/** makeHtmlBoard function: make HTML table and row of column tops. */
+const makeHtmlBoard = () => {
+  // get "htmlBoard" variable from the item in HTML w/ID of "board"
+  const htmlBoard = document.getElementById("board");
 
-// Déclaration de la fonction tie qui indique que la partie n'a pas de vainqueur
-const tie = () => "Egalité !";
+  // create top row
+  const top = document.createElement("tr");
+  top.setAttribute("id", "column-top");
+  top.addEventListener("click", handleClick);
+
+  // add cells to top row
+  for (let x = 0; x < WIDTH; x++) {
+    const headCell = document.createElement("td");
+    headCell.setAttribute("id", x);
+    top.append(headCell);
+  }
+  htmlBoard.append(top);
+
+  // dynamically creates the main part of html board
+  // uses HEIGHT to create table rows
+  // uses WIDTH to create table cells for each row
+  for (let y = 0; y < HEIGHT; y++) {
+    // Create a table row element and assign to a "row" variable
+    const row = document.createElement("tr");
+
+    for (let x = 0; x < WIDTH; x++) {
+      // Create a table cell element and assign to a "cell" variable
+      const cell = document.createElement("td");
+      // add an id, y-x, to the above table cell element
+      cell.setAttribute("id", `${y}-${x}`);
+      // you'll use this later, so make sure you use y-x
+
+      // append the table cell to the table row
+      row.append(cell);
+    }
+    // append the row to the html board
+    htmlBoard.append(row);
+  }
+};
+
+/** findSpotForCol function: given column x, return top empty y (null if filled) */
+const findSpotForCol = (x) => {
+  // TODO: write the real version of this, rather than always returning 0
+  //find lowest empty spot and returns y otherwise return null
+  for (let y = HEIGHT - 1; y >= 0; y--) {
+    if (!board[y][x]) {
+      return y;
+    }
+  }
+  return null;
+};
+
+/** placeInTable function: update DOM to place piece into HTML table of board */
+const placeInTable = (y, x) => {
+  // TODO: make a div and insert into correct table cell
+  const piece = document.createElement("div");
+  const cell = document.getElementById(`${y}-${x}`);
+  piece.classList.add("piece");
+  piece.classList.add(`p${currentPlayer}`);
+  cell.appendChild(piece);
+};
+
+/** endGame function: announce game end */
+const endGame = () => {
+  statusSection.style.display = "flex";
+  statusGame.textContent = `Victoire du joueur ${currentPlayer} !`;
+};
+
+/** handleClick function: handle click of column top to play piece */
+const handleClick = (e) => {
+  // get x from ID of clicked cell
+  let x = +e.target.id;
+
+  // get next spot in column (if none, ignore click)
+  let y = findSpotForCol(x);
+  if (y === null) {
+    return;
+  }
+
+  // place piece in board and add to HTML table
+  // TODO: add line to update in-memory board
+
+  board[y][x] = currentPlayer;
+
+  placeInTable(y, x); //function call
+
+  // check for win
+  // function call
+  if (checkForWin()) {
+    return endGame(`Victoire du joueur ${currentPlayer} !`); // function call
+  }
+
+  // check for tie
+  // TODO: check if all cells in board are filled; if so call, call endGame
+
+  for (let column of board) {
+    if (column.every((cell) => cell === 1 || 2)) {
+      endGame; // function call
+    }
+  }
+
+  // switch players
+  // TODO: switch currentPlayer 1 <-> 2
+  currentPlayer === 1 ? (currentPlayer = 2) : (currentPlayer = 1);
+};
+
+/** checkForWin function: check board cell-by-cell for "does a win start here?" */
+const checkForWin = () => {
+  /** win function:
+   * takes input array of 4 cell coordinates [ [y, x], [y, x], [y, x], [y, x] ]
+   * returns true if all are legal coordinates for a cell & all cells match
+   * currPlayer
+   */
+  const win = (cells) => {
+    // TODO: Check four cells to see if they're all legal & all color of current
+    // player
+    //make sure cells are in range
+    //return true if all true
+
+    //---------------- will need to be adjusted for cells
+    for (let coord in cells) {
+      let y = cells[coord][0];
+      let x = cells[coord][1];
+      let validCheck =
+        y >= 0 &&
+        y <= HEIGHT - 1 &&
+        x >= 0 &&
+        x <= WIDTH - 1 &&
+        board[y][x] === currentPlayer;
+      if (!validCheck) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  // using HEIGHT and WIDTH, generate "check list" of coordinates
+  // for 4 cells (starting here) for each of the different
+  // ways to win: horizontal, vertical, diagonalDR, diagonalDL
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      // TODO: assign values to the below variables for each of the ways to win
+      // horizontal has been assigned for you
+      // each should be an array of 4 cell coordinates:
+      // [ [y, x], [y, x], [y, x], [y, x] ]
+
+      let horiz = [
+        [y, x],
+        [y, x + 1],
+        [y, x + 2],
+        [y, x + 3],
+      ];
+      let vert = [
+        [y, x],
+        [y + 1, x],
+        [y + 2, x],
+        [y + 3, x],
+      ];
+      let diagDL = [
+        [y, x],
+        [y + 1, x - 1],
+        [y + 2, x - 2],
+        [y + 3, x - 3],
+      ];
+      let diagDR = [
+        [y, x],
+        [y + 1, x + 1],
+        [y + 2, x + 2],
+        [y + 3, x + 3],
+      ];
+
+      // find winner (only checking each win-possibility as needed)
+      // function call
+      if (win(horiz) || win(vert) || win(diagDR) || win(diagDL)) {
+        return true;
+      }
+    }
+  }
+};
+
+// Functions call
+makeBoard();
+makeHtmlBoard();
