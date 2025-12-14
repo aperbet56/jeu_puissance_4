@@ -212,6 +212,16 @@ const checkForWin = () => {
 makeBoard();
 makeHtmlBoard();
 
+// Declaration of the replay function will allow us to reset the game
+const replay = () => {
+  window.location.reload();
+  currentPlayer = 1;
+  board = [];
+};
+
+// Listening for the "click" event on the "Rejouer" button and calling the replay function
+replayBtn.addEventListener("click", replay);
+
 // Declaration of the getCurrentYear function which will allow us the dynamic display of the year
 const getCurrentYear = () => {
   const date = new Date();
