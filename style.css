@@ -81,7 +81,7 @@ h1 {
     font-size: 18px;
     line-height: 1.7;
     width: 611px;
-    margin: 20px auto;
+    margin: 0 auto 20px;
 }
 
 /**** table ****/
@@ -157,6 +157,7 @@ h1 {
 @media screen and (max-width: 572px) {
     .game__rules {
         width: 90%;
+        text-align: center;
     }
 
     .board td {
