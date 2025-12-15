@@ -5,6 +5,7 @@
  */
 
 // HTML5 elements retrieval
+const statusPlayer = document.querySelector(".status__player");
 const copyrightYear = document.querySelector(".footer__copyright__year");
 
 // Constants
@@ -89,10 +90,17 @@ const placeInTable = (y, x) => {
   cell.appendChild(piece);
 };
 
-// Declaration of the replay function will allow us to reset the game
+// playerTurn function which indicates which player should play
+const playerTurn = () => `C'est au tour du joueur ${currentPlayer} !`;
+
+// We display which player starts
+statusPlayer.innerHTML = playerTurn(); // function playerTurn() call
+
+// replay function will allow us to reset the game
 const replay = () => {
   window.location.reload();
   currentPlayer = 1;
+  statusPlayer.innerHTML = playerTurn(); // playerTurn() function call
   board = [];
   gameOver = false;
 };
@@ -143,6 +151,7 @@ const handleClick = (e) => {
   // switch players
   // TODO: switch currentPlayer 1 <-> 2
   currentPlayer === 1 ? (currentPlayer = 2) : (currentPlayer = 1);
+  statusPlayer.innerHTML = playerTurn(); // playerTurn() function call
 };
 
 /** checkForWin function: check board cell-by-cell for "does a win start here?" */
