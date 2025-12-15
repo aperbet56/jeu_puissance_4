@@ -1,5 +1,7 @@
 ## JEU : PUISSANCE 4
 
+![Design preview for the project](./img/banner.png)
+
 ## Le challenge
 
 Création du jeu Puissance 4 en HTML5, CSS3 et JavaScript.
