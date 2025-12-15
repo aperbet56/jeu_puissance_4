@@ -2,13 +2,13 @@
 
 ## Le challenge
 
-Création du jeu : puissance 4 en HTML5, CSS3 et JavaScript.
+Création du jeu Puissance 4 en HTML5, CSS3 et JavaScript.
 
 Le but du jeu est d'aligner une suite de 4 pions de même couleur sur une grille comptant 6 rangées et 7 colonnes. Chaque joueur dispose de 21 pions pour y parvenir. Le premier à aligner 4 pions a gagné !!
 
 ## Démonstration
 
-Lien vers le projet :
+Lien vers le projet : https://aperbet56.github.io/jeu_puissance_4/
 
 ## Projet développé avec
 
