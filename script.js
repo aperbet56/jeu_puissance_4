@@ -5,9 +5,6 @@
  */
 
 // HTML5 elements retrieval
-const statusGame = document.querySelector(".status__title");
-const statusSection = document.querySelector(".status");
-const replayBtn = document.querySelector(".replay");
 const copyrightYear = document.querySelector(".footer__copyright__year");
 
 // Constants
@@ -17,6 +14,7 @@ const HEIGHT = 6;
 // Variables
 let currentPlayer = 1; // active player: 1 or 2
 let board = []; // array of rows, each row is array of cells  (board[y][x])
+let gameOver = false;
 
 /** makeBoard function: create in-JS board structure:
  *    board = array of rows, each row is array of cells  (board[y][x])
@@ -87,13 +85,26 @@ const placeInTable = (y, x) => {
   const cell = document.getElementById(`${y}-${x}`);
   piece.classList.add("piece");
   piece.classList.add(`p${currentPlayer}`);
+  // Add to the DOM
   cell.appendChild(piece);
+};
+
+// Declaration of the replay function will allow us to reset the game
+const replay = () => {
+  window.location.reload();
+  currentPlayer = 1;
+  board = [];
+  gameOver = false;
 };
 
 /** endGame function: announce game end */
 const endGame = () => {
-  statusSection.style.display = "flex";
-  statusGame.textContent = `Victoire du joueur ${currentPlayer} !`;
+  gameOver = true;
+  setTimeout(() => {
+    alert(`Victoire du joueur ${currentPlayer} !`);
+    // replay() function call
+    replay();
+  }, 0);
 };
 
 /** handleClick function: handle click of column top to play piece */
@@ -212,16 +223,6 @@ const checkForWin = () => {
 makeBoard();
 makeHtmlBoard();
 
-// Declaration of the replay function will allow us to reset the game
-const replay = () => {
-  window.location.reload();
-  currentPlayer = 1;
-  board = [];
-};
-
-// Listening for the "click" event on the "Rejouer" button and calling the replay function
-replayBtn.addEventListener("click", replay);
-
 // Declaration of the getCurrentYear function which will allow us the dynamic display of the year
 const getCurrentYear = () => {
   const date = new Date();
@@ -232,6 +233,5 @@ const getCurrentYear = () => {
 
   copyrightYear.textContent = `${year}`;
 };
-
 // getCurrentYear function call
 getCurrentYear();
